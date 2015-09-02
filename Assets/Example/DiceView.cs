@@ -4,12 +4,12 @@ using Container.Framework;
 
 namespace Container.Example
 {
-    public class DiceBehaviour : MonoBehaviour
+    public class DiceView : MonoBehaviour
     {
         [SerializeField] Button rollButton;
         [SerializeField] Text resultLabel;
 
-        IRandom random;
+        IDiceRoller diceRoller;
 
         void OnEnable()
         {
@@ -23,12 +23,12 @@ namespace Container.Example
 
         void Start()
         {
-            random = FindObjectOfType<CompositionRoot>().container.Resolve<IRandom>();
+            diceRoller = FindObjectOfType<CompositionRoot>().container.Resolve<IDiceRoller>();
         }
 
         void onRollClick()
         {
-            resultLabel.text = random.Range(1, 6).ToString();
+            resultLabel.text = diceRoller.Roll().Result();
         }
     }
 }
