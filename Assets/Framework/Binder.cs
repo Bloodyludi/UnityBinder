@@ -1,8 +1,14 @@
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 namespace Container.Framework
 {
+    [AttributeUsage(AttributeTargets.Property)]
+    public class Inject : Attribute
+    {
+    }
+
     public interface IBinder
     {
         void Bind<TInter, TClass>();
@@ -27,7 +33,7 @@ namespace Container.Framework
             if (instance == null)
             {
                 instance = Activator.CreateInstance<TClass>();
-                //TODO: Inject Dependencies
+                ResolveDependencies(instance);
             }
 
             bindings[typeof(TInter)] = instance;
@@ -36,24 +42,42 @@ namespace Container.Framework
         public T Resolve<T>()
         {
             var type = typeof(T);
+            return (T)Resolve(type);
+        }
+
+        public object Resolve(Type type)
+        {
             object instance;
 
             if (bindings.ContainsKey(type))
             {
-                instance = bindings[typeof(T)];
+                instance = bindings[type];
             }
             else if (types.ContainsKey(type))
             {
                 instance = Activator.CreateInstance(types[type]);
-                //TODO: Inject Dependencies
+                ResolveDependencies(instance);
             }
             else
             {
                 throw new Exception("Couldn't resolve binding for " + type);
             }
 
-            return (T)instance;
+            return instance;
         }
 
+        private void ResolveDependencies(object instance)
+        {
+            var type = instance.GetType();
+            var injectProperties = type.GetProperties().Where(
+                prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
+
+            while (injectProperties.MoveNext())
+            {
+                var property = injectProperties.Current;
+                var binding = Resolve(property.PropertyType);
+                property.SetValue(instance, binding, null);
+            }
+        }
     }
 }

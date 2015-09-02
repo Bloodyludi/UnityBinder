@@ -50,7 +50,7 @@ namespace Container.UnitTests
         }
 
         [Test]
-        public void ShouldBindAndResoleClassToInstance()
+        public void ShouldBindAndResolveClassToInstance()
         {
             binder.BindToInstance<ITestInterface, TestClass>();
 
@@ -58,15 +58,35 @@ namespace Container.UnitTests
 
             Assert.NotNull(resolved);
         }
+
+        [Test]
+        public void ShouldInjectProperties()
+        {
+            binder.Bind<ITestInterface, TestClass>();
+            binder.Bind<ITestInterfaceWithProperty, TestClassWithProperty>();
+
+            var resolved = binder.Resolve<ITestInterfaceWithProperty>();
+
+            Assert.NotNull(resolved.test);
+        }
+    }
+
+    public interface ITestInterfaceWithProperty
+    {
+        ITestInterface test { get; set; }
+    }
+
+    public class TestClassWithProperty : ITestInterfaceWithProperty
+    {
+        [Inject]
+        public ITestInterface test { get; set; }
     }
 
     public class TestClass : ITestInterface
     {
-
     }
 
     public interface ITestInterface
     {
-
     }
 }
