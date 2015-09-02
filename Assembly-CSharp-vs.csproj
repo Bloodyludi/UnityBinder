@@ -46,7 +46,9 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Example\DiceBehaviour.cs" />
      <Compile Include="Assets\Example\GameRoot.cs" />
+     <Compile Include="Assets\Example\Random.cs" />
      <Compile Include="Assets\Framework\Binder.cs" />
      <Compile Include="Assets\Framework\CompositionRoot.cs" />
  <Reference Include="UnityEngine.UI">
