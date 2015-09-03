@@ -123,7 +123,13 @@ namespace Container.UnitTests
     {
         public ITestInterface test { get; }
 
+        [Inject]
         public TestClassWithConstructor(ITestInterface test)
+        {
+            this.test = test;
+        }
+
+        public TestClassWithConstructor(ITestInterface test, int x)
         {
             this.test = test;
         }

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Container.Framework
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Constructor)]
     public class Inject : Attribute
     {
     }
@@ -103,8 +103,18 @@ namespace Container.Framework
         private ConstructorInfo GetConstructor(Type type)
         {
             var constructors = type.GetConstructors();
+            ConstructorInfo constructor;
 
-            return constructors.Length > 0 ? constructors[0] : null;
+            if (constructors.Length == 1)
+            {
+                constructor = constructors[0];
+            }
+            else
+            {
+                constructor = constructors.Single(x => Attribute.IsDefined(x, typeof(Inject)));
+            }
+
+            return constructor;
         }
 
         private object[] ResolveParameters(ParameterInfo[] parameterInfos)
