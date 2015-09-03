@@ -26,6 +26,12 @@ namespace Container.Framework
         readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
         readonly IDictionary<Type, object> singletonMap = new Dictionary<Type, object>();
 
+        public Binder()
+        {
+            //Needs to bind itself in order to allow factories to use it as a service locator
+            BindToInstance<IBinder, Binder>(this);
+        }
+
         public void Bind<TInter, TClass>() where TClass : class, TInter
         {
             transientMap[typeof(TInter)] = typeof(TClass);
@@ -89,7 +95,7 @@ namespace Container.Framework
             {
                 var paramInfos = constructor.GetParameters();
                 var paramInstances = ResolveParameters(paramInfos);
-                instance = constructor.Invoke(paramInstances);
+                instance = Activator.CreateInstance(type, paramInstances);
             }
             else
             {

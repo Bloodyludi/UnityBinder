@@ -10,15 +10,25 @@ namespace Container.Framework
         {
             container = new Binder();
             SetupBindings();
+//            ResolveScene();
             Init();
         }
 
         protected abstract void SetupBindings();
+
         protected abstract void Init();
 
         public void InjectDependencies(MonoBehaviour script)
         {
             container.InjectProperties(script);
         }
+
+//        private void ResolveScene()
+//        {
+//            foreach (var script in Object.FindObjectsOfType(typeof(MonoBehaviour)))
+//            {
+//                container.InjectProperties(script);
+//            }
+//        }
     }
 }
