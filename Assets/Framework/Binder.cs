@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Container.Framework
 {
@@ -17,7 +18,7 @@ namespace Container.Framework
 
         T Resolve<T>();
 
-        void ResolveDependencies(object instance);
+        void InjectProperties(object instance);
     }
 
     public class Binder : IBinder
@@ -34,7 +35,7 @@ namespace Container.Framework
         {
             if (instance == null)
             {
-                instance = (TClass) Instantiate(typeof(TClass)); 
+                instance = (TClass)Instantiate(typeof(TClass)); 
             }
 
             singletonMap[typeof(TInter)] = instance;
@@ -49,9 +50,8 @@ namespace Container.Framework
         public void InjectProperties(object instance)
         {
             var type = instance.GetType();
-            var injectProperties = type.GetProperties().Where(
-                prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
-            
+            var injectProperties = type.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
+
             while (injectProperties.MoveNext())
             {
                 var property = injectProperties.Current;
@@ -82,10 +82,43 @@ namespace Container.Framework
 
         private object Instantiate(Type type)
         {
-            var instance = Activator.CreateInstance(type);
+            object instance;
+
+            var constructor = GetConstructor(type);
+            if (constructor != null)
+            {
+                var paramInfos = constructor.GetParameters();
+                var paramInstances = ResolveParameters(paramInfos);
+                instance = constructor.Invoke(paramInstances);
+            }
+            else
+            {
+                instance = Activator.CreateInstance(type);
+            }
+            
             InjectProperties(instance);
             return instance;
         }
 
+        private ConstructorInfo GetConstructor(Type type)
+        {
+            var constructors = type.GetConstructors();
+
+            return constructors.Length > 0 ? constructors[0] : null;
+        }
+
+        private object[] ResolveParameters(ParameterInfo[] parameterInfos)
+        {
+            var parameters = new object[parameterInfos.Length];
+
+            for (int i = 0; i < parameters.Length; i++)
+            {
+                var parameterInfo = parameterInfos[i];
+
+                parameters[i] = Resolve(parameterInfo.ParameterType);
+            }
+
+            return parameters;
+        }
     }
 }

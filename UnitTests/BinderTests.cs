@@ -69,11 +69,69 @@ namespace Container.UnitTests
 
             Assert.NotNull(resolved.test);
         }
+
+        [Test]
+        public void ShouldInstantiateClassWithDefaultConstructor()
+        {
+            binder.Bind<ITestInterface, TestClassWithDefaultConstructor>();
+
+            var resolved = binder.Resolve<ITestInterface>();
+
+            Assert.NotNull(resolved);
+        }
+
+        [Test]
+        public void ShouldInstantiateClassWithConstructorWithParams()
+        {
+            binder.Bind<ITestInterface, TestClass>();
+            binder.Bind<ITestInterfaceWithProperty, TestClassWithConstructor>();
+
+            var resolved = binder.Resolve<ITestInterfaceWithProperty>();
+
+            Assert.NotNull(resolved.test);
+        }
+
+        [Test]
+        public void ShouldInstantiateNestedConstructors()
+        {
+            binder.Bind<ITestInterface, TestClass>();
+            binder.Bind<ITestInterfaceWithProperty, TestClassWithConstructor>();
+            binder.Bind<IClassWithNestedElement, ClassWithNestedElement>();
+
+            var resolved = binder.Resolve<IClassWithNestedElement>();
+
+            Assert.NotNull(resolved.nested.test);
+        }
+    }
+
+    public interface IClassWithNestedElement
+    {
+        ITestInterfaceWithProperty nested { get; }
+    }
+
+    public class ClassWithNestedElement : IClassWithNestedElement
+    {
+        public ITestInterfaceWithProperty nested { get; }
+
+        public ClassWithNestedElement(ITestInterfaceWithProperty nested)
+        {
+            this.nested = nested;
+        }
+    }
+
+    public class TestClassWithConstructor : ITestInterfaceWithProperty
+    {
+        public ITestInterface test { get; }
+
+        public TestClassWithConstructor(ITestInterface test)
+        {
+            this.test = test;
+        }
     }
 
     public interface ITestInterfaceWithProperty
     {
-        ITestInterface test { get; set; }
+        ITestInterface test { get; }
     }
 
     public class TestClassWithProperty : ITestInterfaceWithProperty
@@ -84,6 +142,13 @@ namespace Container.UnitTests
 
     public class TestClass : ITestInterface
     {
+    }
+
+    public class TestClassWithDefaultConstructor : ITestInterface
+    {
+        public TestClassWithDefaultConstructor()
+        {
+        }
     }
 
     public interface ITestInterface

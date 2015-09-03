@@ -18,7 +18,7 @@ namespace Container.Framework
 
         public void InjectDependencies(MonoBehaviour script)
         {
-            container.ResolveDependencies(script);
+            container.InjectProperties(script);
         }
     }
 }

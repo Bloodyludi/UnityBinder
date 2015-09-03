@@ -11,11 +11,14 @@ namespace Container.Example
 
     public class DiceRoller : IDiceRoller
     {
-        [Inject]
-        public IRandom random { get; set; }
-
+        private IRandom random;
         private int result;
         private const int pips = 6;
+
+        public DiceRoller(IRandom random)
+        {
+            this.random = random;
+        }
 
         public IDiceRoller Roll()
         {
