@@ -2,7 +2,7 @@
 
 namespace Container.Framework
 {
-    public abstract class CompositionRoot : UnityEngine.MonoBehaviour, IMonoInjectionHandler
+    public abstract class CompositionRoot : MonoBehaviour, IMonoInjectionHandler
     {
         protected IBinder container;
 

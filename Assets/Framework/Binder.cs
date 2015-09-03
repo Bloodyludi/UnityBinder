@@ -11,36 +11,33 @@ namespace Container.Framework
 
     public interface IBinder
     {
-        void Bind<TInter, TClass>();
+        void Bind<TInter, TClass>() where TClass : class, TInter;
 
-        void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class;
+        void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter;
 
         T Resolve<T>();
-
-        object Resolve(Type type);
 
         void ResolveDependencies(object instance);
     }
 
     public class Binder : IBinder
     {
-        readonly IDictionary<Type, Type> types = new Dictionary<Type, Type>();
-        readonly IDictionary<Type, object> bindings = new Dictionary<Type, object>();
+        readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
+        readonly IDictionary<Type, object> singletonMap = new Dictionary<Type, object>();
 
-        public void Bind<TInter, TClass>()
+        public void Bind<TInter, TClass>() where TClass : class, TInter
         {
-            types[typeof(TInter)] = typeof(TClass);
+            transientMap[typeof(TInter)] = typeof(TClass);
         }
 
-        public void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class
+        public void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter
         {
             if (instance == null)
             {
-                instance = Activator.CreateInstance<TClass>();
-                ResolveDependencies(instance);
+                instance = (TClass) Instantiate(typeof(TClass)); 
             }
 
-            bindings[typeof(TInter)] = instance;
+            singletonMap[typeof(TInter)] = instance;
         }
 
         public T Resolve<T>()
@@ -49,18 +46,31 @@ namespace Container.Framework
             return (T)Resolve(type);
         }
 
-        public object Resolve(Type type)
+        public void InjectProperties(object instance)
+        {
+            var type = instance.GetType();
+            var injectProperties = type.GetProperties().Where(
+                prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
+            
+            while (injectProperties.MoveNext())
+            {
+                var property = injectProperties.Current;
+                var binding = Resolve(property.PropertyType);
+                property.SetValue(instance, binding, null);
+            }
+        }
+
+        private object Resolve(Type type)
         {
             object instance;
 
-            if (bindings.ContainsKey(type))
+            if (singletonMap.ContainsKey(type))
             {
-                instance = bindings[type];
+                instance = singletonMap[type];
             }
-            else if (types.ContainsKey(type))
+            else if (transientMap.ContainsKey(type))
             {
-                instance = Activator.CreateInstance(types[type]);
-                ResolveDependencies(instance);
+                instance = Instantiate(transientMap[type]); 
             }
             else
             {
@@ -70,18 +80,12 @@ namespace Container.Framework
             return instance;
         }
 
-        public void ResolveDependencies(object instance)
+        private object Instantiate(Type type)
         {
-            var type = instance.GetType();
-            var injectProperties = type.GetProperties().Where(
-                prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
-
-            while (injectProperties.MoveNext())
-            {
-                var property = injectProperties.Current;
-                var binding = Resolve(property.PropertyType);
-                property.SetValue(instance, binding, null);
-            }
+            var instance = Activator.CreateInstance(type);
+            InjectProperties(instance);
+            return instance;
         }
+
     }
 }

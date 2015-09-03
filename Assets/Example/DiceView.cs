@@ -10,26 +10,26 @@ namespace Container.Example
         [SerializeField] Text resultLabel;
 
         [Inject]
-        public IDiceRoller DiceRoller { get; set; }
+        public IDiceRoller diceRoller { get; set; }
 
-        void OnEnable()
-        {
-            rollButton.onClick.AddListener(onRollClick);
-        }
-
-        void OnDisable()
-        {
-            rollButton.onClick.RemoveListener(onRollClick);
-        }
-
-        void Start()
+        private void Start()
         {
             this.Inject();
         }
 
-        void onRollClick()
+        private  void OnEnable()
         {
-            resultLabel.text = DiceRoller.Roll().Result();
+            rollButton.onClick.AddListener(onRollClick);
+        }
+
+        private  void OnDisable()
+        {
+            rollButton.onClick.RemoveListener(onRollClick);
+        }
+
+        private void onRollClick()
+        {
+            resultLabel.text = diceRoller.Roll().Result();
         }
     }
 }
