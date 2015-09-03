@@ -1,10 +1,10 @@
-﻿using Container.Framework;
+﻿using UnityEngine;
 
 namespace Container.Framework
 {
-    public abstract class CompositionRoot : UnityEngine.MonoBehaviour
+    public abstract class CompositionRoot : UnityEngine.MonoBehaviour, IMonoInjectionHandler
     {
-        public IBinder container;
+        protected IBinder container;
 
         protected void Awake()
         {
@@ -15,5 +15,10 @@ namespace Container.Framework
 
         protected abstract void SetupBindings();
         protected abstract void Init();
+
+        public void InjectDependencies(MonoBehaviour script)
+        {
+            container.ResolveDependencies(script);
+        }
     }
 }

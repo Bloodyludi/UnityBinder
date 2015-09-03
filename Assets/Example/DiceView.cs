@@ -9,7 +9,8 @@ namespace Container.Example
         [SerializeField] Button rollButton;
         [SerializeField] Text resultLabel;
 
-        IDiceRoller diceRoller;
+        [Inject]
+        public IDiceRoller DiceRoller { get; set; }
 
         void OnEnable()
         {
@@ -23,12 +24,12 @@ namespace Container.Example
 
         void Start()
         {
-            diceRoller = FindObjectOfType<CompositionRoot>().container.Resolve<IDiceRoller>();
+            this.Inject();
         }
 
         void onRollClick()
         {
-            resultLabel.text = diceRoller.Roll().Result();
+            resultLabel.text = DiceRoller.Roll().Result();
         }
     }
 }

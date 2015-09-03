@@ -16,6 +16,10 @@ namespace Container.Framework
         void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class;
 
         T Resolve<T>();
+
+        object Resolve(Type type);
+
+        void ResolveDependencies(object instance);
     }
 
     public class Binder : IBinder
@@ -66,7 +70,7 @@ namespace Container.Framework
             return instance;
         }
 
-        private void ResolveDependencies(object instance)
+        public void ResolveDependencies(object instance)
         {
             var type = instance.GetType();
             var injectProperties = type.GetProperties().Where(
