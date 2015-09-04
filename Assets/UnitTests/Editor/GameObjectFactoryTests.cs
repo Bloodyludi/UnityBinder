@@ -31,6 +31,9 @@ namespace Container.UnitTests
             Assert.NotNull(instance);
             Assert.NotNull(instance.GetComponent<TestMono>());
             Assert.NotNull(instance.GetComponent<TestMono>().property);
+
+            Object.DestroyImmediate(instance);
+            Object.DestroyImmediate(prefab);
         }
     }
 
