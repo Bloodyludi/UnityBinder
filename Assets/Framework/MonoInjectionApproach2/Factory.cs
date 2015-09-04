@@ -26,5 +26,4 @@ namespace Container.Framework
             return binder.Resolve<T>();
         }
     }
-    
 }

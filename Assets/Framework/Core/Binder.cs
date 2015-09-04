@@ -30,7 +30,7 @@ namespace Container.Framework
 
         public Binder()
         {
-            //Needs to bind itself in order to allow factories to use it as a service locator
+            //Allows to be used as a Service Locator
             BindToInstance<IBinder, Binder>(this);
         }
 
@@ -109,7 +109,7 @@ namespace Container.Framework
             {
                 instance = Activator.CreateInstance(type);
             }
-            
+
             InjectProperties(instance);
             return instance;
         }
