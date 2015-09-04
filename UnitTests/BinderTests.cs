@@ -102,6 +102,40 @@ namespace Container.UnitTests
 
             Assert.NotNull(resolved.nested.test);
         }
+
+        [Test]
+        public void ShouldBindMultipleGenericObjects()
+        {
+            binder.Bind<ITestInterface, TestClass>();
+            binder.Bind<ITestInterfaceWithProperty, TestClassWithProperty>();
+
+            binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
+            binder.BindToInstance<IFactory<ITestInterfaceWithProperty>, Factory<ITestInterfaceWithProperty>>();
+
+            var facA = binder.Resolve<IFactory<ITestInterface>>();
+            var facB = binder.Resolve<IFactory<ITestInterfaceWithProperty>>();
+
+            Assert.AreNotSame(facA, facB);
+        }
+
+        [Test]
+        public void TestFactory()
+        {
+            binder.Bind<ITestInterface, TestClass>();
+            binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
+
+            var factory = binder.Resolve<IFactory<ITestInterface>>();
+            Assert.NotNull(factory);
+
+            var product = factory.Create();
+            Assert.NotNull(product);
+        }
+
+        [Test]
+        public void FactoryShouldThrowExceptionForNullBinding()
+        {
+            Assert.Throws<System.Reflection.TargetInvocationException>(() => binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>());
+        }
     }
 
     public interface IClassWithNestedElement

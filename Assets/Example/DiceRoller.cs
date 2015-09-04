@@ -1,5 +1,3 @@
-using Container.Framework;
-
 namespace Container.Example
 {
     public interface IDiceRoller

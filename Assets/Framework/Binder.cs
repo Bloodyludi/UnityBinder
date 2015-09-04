@@ -16,6 +16,8 @@ namespace Container.Framework
 
         void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter;
 
+        bool HasBinding<T>();
+
         T Resolve<T>();
 
         void InjectProperties(object instance);
@@ -51,6 +53,12 @@ namespace Container.Framework
         {
             var type = typeof(T);
             return (T)Resolve(type);
+        }
+
+        public bool HasBinding<T>()
+        {
+            var type = typeof(T);
+            return (singletonMap.ContainsKey(type) || transientMap.ContainsKey(type));
         }
 
         public void InjectProperties(object instance)

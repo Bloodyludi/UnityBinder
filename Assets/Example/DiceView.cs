@@ -17,12 +17,12 @@ namespace Container.Example
             this.Inject();
         }
 
-        private  void OnEnable()
+        private void OnEnable()
         {
             rollButton.onClick.AddListener(onRollClick);
         }
 
-        private  void OnDisable()
+        private void OnDisable()
         {
             rollButton.onClick.RemoveListener(onRollClick);
         }

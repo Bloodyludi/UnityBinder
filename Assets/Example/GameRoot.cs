@@ -2,7 +2,7 @@
 
 namespace Container.Example
 {
-    public class GameRoot : CompositionRoot 
+    public class GameRoot : SceneCompositionRoot
     {
         protected override void SetupBindings()
         {
