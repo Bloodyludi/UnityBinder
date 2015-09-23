@@ -20,7 +20,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldResolveDependency()
         {
-            binder.Bind<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
             
             var prefab = new GameObject();
             prefab.AddComponent<TestMono>();

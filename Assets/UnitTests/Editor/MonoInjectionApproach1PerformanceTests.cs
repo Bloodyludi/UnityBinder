@@ -27,7 +27,7 @@ namespace Container.UnitTests
             instances = new GameObject[500000];
         }
 
-//        [TearDown]
+        [TearDown]
         public void TearDown()
         {
             for (int i = 0; i < instances.Length; i++)
@@ -39,7 +39,7 @@ namespace Container.UnitTests
             Object.DestroyImmediate(root);
         }
 
-        [Test]
+//        [Test]
         public void TestPerformance()
         {
             sw.Start();
@@ -65,7 +65,7 @@ namespace Container.UnitTests
         public void Setup()
                 {
                     container = new Binder();
-                    container.Bind<ITestInterface, TestClass>();
+                    container.RegisterTransient<ITestInterface, TestClass>();
                 }
 
         protected override void SetupBindings()

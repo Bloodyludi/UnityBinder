@@ -12,9 +12,9 @@ namespace Container.Framework
 
     public interface IBinder
     {
-        void Bind<TInter, TClass>() where TClass : class, TInter;
+        void RegisterTransient<TInter, TClass>() where TClass : class, TInter;
 
-        void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter;
+        void RegisterInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter;
 
         bool HasBinding<T>();
 
@@ -25,21 +25,21 @@ namespace Container.Framework
 
     public class Binder : IBinder
     {
-        readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
-        readonly IDictionary<Type, object> singletonMap = new Dictionary<Type, object>();
+        private readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
+        private readonly IDictionary<Type, object> singletonMap = new Dictionary<Type, object>();
 
         public Binder()
         {
-            //Allows to be used as a Service Locator
-            BindToInstance<IBinder, Binder>(this);
+            //Allows the Container to be used as a Service Locator
+            RegisterInstance<IBinder, Binder>(this);
         }
 
-        public void Bind<TInter, TClass>() where TClass : class, TInter
+        public void RegisterTransient<TInter, TClass>() where TClass : class, TInter
         {
             transientMap[typeof(TInter)] = typeof(TClass);
         }
 
-        public void BindToInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter
+        public void RegisterInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter
         {
             if (instance == null)
             {
@@ -53,6 +53,21 @@ namespace Container.Framework
         {
             var type = typeof(T);
             return (T)Resolve(type);
+        }
+
+        public void Release<T>()
+        {
+            var type = typeof(T);
+            if (singletonMap.ContainsKey(type))
+            {
+                singletonMap.Remove(type);
+            }
+            else if (transientMap.ContainsKey(type))
+            {
+                transientMap.Remove(type);
+            }
+
+            GC.Collect();
         }
 
         public bool HasBinding<T>()

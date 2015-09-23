@@ -18,7 +18,7 @@ namespace Container.UnitTests
         public void SetUp()
         {
             binder = new Binder();
-            binder.Bind<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
             factory = new GameObjectFactory(binder);
             sw = new Stopwatch();
             prefab = new GameObject();
@@ -38,7 +38,7 @@ namespace Container.UnitTests
             Object.DestroyImmediate(prefab);
         }
 
-        [Test]
+//        [Test]
         public void TestPerformance()
         {
             sw.Start();

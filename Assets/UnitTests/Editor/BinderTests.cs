@@ -17,7 +17,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldBindAndResolveAbstraction()
         {
-            binder.Bind<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
 
             var resolved = binder.Resolve<ITestInterface>();
 
@@ -31,7 +31,7 @@ namespace Container.UnitTests
         {
             var instance = new TestClass();
 
-            binder.BindToInstance<ITestInterface, TestClass>(instance);
+            binder.RegisterInstance<ITestInterface, TestClass>(instance);
 
             var resolved = binder.Resolve<ITestInterface>();
 
@@ -41,7 +41,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldNotCacheBindings()
         {
-            binder.Bind<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
 
             var first = binder.Resolve<ITestInterface>();
             var second = binder.Resolve<ITestInterface>();
@@ -52,7 +52,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldBindAndResolveClassToInstance()
         {
-            binder.BindToInstance<ITestInterface, TestClass>();
+            binder.RegisterInstance<ITestInterface, TestClass>();
 
             var resolved = binder.Resolve<ITestInterface>();
 
@@ -62,8 +62,8 @@ namespace Container.UnitTests
         [Test]
         public void ShouldInjectProperties()
         {
-            binder.Bind<ITestInterface, TestClass>();
-            binder.Bind<ITestInterfaceWithProperty, TestClassWithProperty>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterfaceWithProperty, TestClassWithProperty>();
 
             var resolved = binder.Resolve<ITestInterfaceWithProperty>();
 
@@ -73,7 +73,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldInstantiateClassWithDefaultConstructor()
         {
-            binder.Bind<ITestInterface, TestClassWithDefaultConstructor>();
+            binder.RegisterTransient<ITestInterface, TestClassWithDefaultConstructor>();
 
             var resolved = binder.Resolve<ITestInterface>();
 
@@ -83,8 +83,8 @@ namespace Container.UnitTests
         [Test]
         public void ShouldInstantiateClassWithConstructorWithParams()
         {
-            binder.Bind<ITestInterface, TestClass>();
-            binder.Bind<ITestInterfaceWithProperty, TestClassWithConstructor>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterfaceWithProperty, TestClassWithConstructor>();
 
             var resolved = binder.Resolve<ITestInterfaceWithProperty>();
 
@@ -94,9 +94,9 @@ namespace Container.UnitTests
         [Test]
         public void ShouldInstantiateNestedConstructors()
         {
-            binder.Bind<ITestInterface, TestClass>();
-            binder.Bind<ITestInterfaceWithProperty, TestClassWithConstructor>();
-            binder.Bind<IClassWithNestedElement, ClassWithNestedElement>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterfaceWithProperty, TestClassWithConstructor>();
+            binder.RegisterTransient<IClassWithNestedElement, ClassWithNestedElement>();
 
             var resolved = binder.Resolve<IClassWithNestedElement>();
 
@@ -106,11 +106,11 @@ namespace Container.UnitTests
         [Test]
         public void ShouldBindMultipleGenericObjects()
         {
-            binder.Bind<ITestInterface, TestClass>();
-            binder.Bind<ITestInterfaceWithProperty, TestClassWithProperty>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
+            binder.RegisterTransient<ITestInterfaceWithProperty, TestClassWithProperty>();
 
-            binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
-            binder.BindToInstance<IFactory<ITestInterfaceWithProperty>, Factory<ITestInterfaceWithProperty>>();
+            binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
+            binder.RegisterInstance<IFactory<ITestInterfaceWithProperty>, Factory<ITestInterfaceWithProperty>>();
 
             var facA = binder.Resolve<IFactory<ITestInterface>>();
             var facB = binder.Resolve<IFactory<ITestInterfaceWithProperty>>();
@@ -121,8 +121,8 @@ namespace Container.UnitTests
         [Test]
         public void TestFactory()
         {
-            binder.Bind<ITestInterface, TestClass>();
-            binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
+            binder.RegisterTransient<ITestInterface, TestClass>();
+            binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
 
             var factory = binder.Resolve<IFactory<ITestInterface>>();
             Assert.NotNull(factory);
@@ -134,7 +134,7 @@ namespace Container.UnitTests
         [Test]
         public void FactoryShouldThrowExceptionForNullBinding()
         {
-            Assert.Throws<System.Reflection.TargetInvocationException>(() => binder.BindToInstance<IFactory<ITestInterface>, Factory<ITestInterface>>());
+            Assert.Throws<System.Reflection.TargetInvocationException>(() => binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>());
         }
     }
 
