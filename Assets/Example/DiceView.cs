@@ -6,8 +6,8 @@ namespace Container.Example
 {
     public class DiceView : MonoBehaviour
     {
-        [SerializeField] Button rollButton;
-        [SerializeField] Text resultLabel;
+        [SerializeField] private Button rollButton;
+        [SerializeField] private Text resultLabel;
 
         [Inject]
         public IDiceRoller diceRoller { get; set; }

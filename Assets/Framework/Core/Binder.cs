@@ -6,7 +6,7 @@ using System.Reflection;
 namespace Container.Framework
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Constructor)]
-    public class Inject : Attribute
+    public class InjectAttribute : Attribute
     {
     }
 
@@ -79,7 +79,7 @@ namespace Container.Framework
         public void InjectProperties(object instance)
         {
             var type = instance.GetType();
-            var injectProperties = type.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(Inject))).GetEnumerator();
+            var injectProperties = type.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(InjectAttribute))).GetEnumerator();
 
             while (injectProperties.MoveNext())
             {
@@ -140,7 +140,7 @@ namespace Container.Framework
             }
             else
             {
-                constructor = constructors.Single(x => Attribute.IsDefined(x, typeof(Inject)));
+                constructor = constructors.Single(x => Attribute.IsDefined(x, typeof(InjectAttribute)));
             }
 
             return constructor;
