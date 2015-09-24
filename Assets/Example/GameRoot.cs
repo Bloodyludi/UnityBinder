@@ -6,8 +6,8 @@ namespace Container.Example
     {
         protected override void SetupBindings()
         {
-            container.RegisterInstance<IRandom, UnityRandom>();
-            container.RegisterInstance<IDiceRoller, DiceRoller>();
+            container.RegisterSingleton<IRandom, UnityRandom>();
+            container.RegisterSingleton<IDiceRoller, DiceRoller>();
         }
 
         protected override void Init()

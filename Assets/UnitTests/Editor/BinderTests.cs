@@ -52,7 +52,7 @@ namespace Container.UnitTests
         [Test]
         public void ShouldBindAndResolveClassToInstance()
         {
-            binder.RegisterInstance<ITestInterface, TestClass>();
+            binder.RegisterSingleton<ITestInterface, TestClass>();
 
             var resolved = binder.Resolve<ITestInterface>();
 
@@ -109,8 +109,8 @@ namespace Container.UnitTests
             binder.RegisterTransient<ITestInterface, TestClass>();
             binder.RegisterTransient<ITestInterfaceWithProperty, TestClassWithProperty>();
 
-            binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
-            binder.RegisterInstance<IFactory<ITestInterfaceWithProperty>, Factory<ITestInterfaceWithProperty>>();
+            binder.RegisterSingleton<IFactory<ITestInterface>, Factory<ITestInterface>>();
+            binder.RegisterSingleton<IFactory<ITestInterfaceWithProperty>, Factory<ITestInterfaceWithProperty>>();
 
             var facA = binder.Resolve<IFactory<ITestInterface>>();
             var facB = binder.Resolve<IFactory<ITestInterfaceWithProperty>>();
@@ -122,7 +122,7 @@ namespace Container.UnitTests
         public void TestFactory()
         {
             binder.RegisterTransient<ITestInterface, TestClass>();
-            binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>();
+            binder.RegisterSingleton<IFactory<ITestInterface>, Factory<ITestInterface>>();
 
             var factory = binder.Resolve<IFactory<ITestInterface>>();
             Assert.NotNull(factory);
@@ -134,7 +134,7 @@ namespace Container.UnitTests
         [Test]
         public void FactoryShouldThrowExceptionForNullBinding()
         {
-            Assert.Throws<System.Reflection.TargetInvocationException>(() => binder.RegisterInstance<IFactory<ITestInterface>, Factory<ITestInterface>>());
+            Assert.Throws<System.Reflection.TargetInvocationException>(() => binder.RegisterSingleton<IFactory<ITestInterface>, Factory<ITestInterface>>(false));
         }
     }
 

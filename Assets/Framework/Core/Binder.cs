@@ -5,24 +5,6 @@ using System.Reflection;
 
 namespace Container.Framework
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Constructor)]
-    public class InjectAttribute : Attribute
-    {
-    }
-
-    public interface IBinder
-    {
-        void RegisterTransient<TInter, TClass>() where TClass : class, TInter;
-
-        void RegisterInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter;
-
-        bool HasBinding<T>();
-
-        T Resolve<T>();
-
-        void InjectProperties(object instance);
-    }
-
     public class Binder : IBinder
     {
         private readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
@@ -39,11 +21,29 @@ namespace Container.Framework
             transientMap[typeof(TInter)] = typeof(TClass);
         }
 
-        public void RegisterInstance<TInter, TClass>(TClass instance = null) where TClass : class, TInter
+        public void RegisterInstance<TInter, TClass>(TClass instance) where TClass : class, TInter
         {
-            if (instance == null)
+            if (instance != null)
             {
-                instance = (TClass)Instantiate(typeof(TClass)); 
+                singletonMap[typeof(TInter)] = instance;
+            }
+            else
+            {
+                throw new ArgumentNullException("instance", "You need to provide an instance. Use RegisterSingleton instead");
+            }
+        }
+
+        public void RegisterSingleton<TInter, TClass>(bool lazy = true) where TClass : class, TInter
+        {
+            TClass instance = null;
+
+            if (lazy == false)
+            {
+                instance = (TClass)Instantiate(typeof(TClass));
+            }
+            else
+            {
+                transientMap[typeof(TInter)] = typeof(TClass);
             }
 
             singletonMap[typeof(TInter)] = instance;
@@ -79,13 +79,13 @@ namespace Container.Framework
         public void InjectProperties(object instance)
         {
             var type = instance.GetType();
-            var injectProperties = type.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(InjectAttribute))).GetEnumerator();
+            var propertyInfos = type.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(InjectAttribute))).GetEnumerator();
 
-            while (injectProperties.MoveNext())
+            while (propertyInfos.MoveNext())
             {
-                var property = injectProperties.Current;
-                var binding = Resolve(property.PropertyType);
-                property.SetValue(instance, binding, null);
+                var propertyInfo = propertyInfos.Current;
+                var propertyInstance = Resolve(propertyInfo.PropertyType);
+                propertyInfo.SetValue(instance, propertyInstance, null);
             }
         }
 
@@ -95,6 +95,11 @@ namespace Container.Framework
 
             if (singletonMap.ContainsKey(type))
             {
+                if (singletonMap[type] == null)
+                {
+                    singletonMap[type] = Instantiate(transientMap[type]); 
+                }
+
                 instance = singletonMap[type];
             }
             else if (transientMap.ContainsKey(type))
