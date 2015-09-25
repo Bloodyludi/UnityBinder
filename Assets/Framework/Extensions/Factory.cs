@@ -1,6 +1,6 @@
 using System;
 
-namespace Container.Framework
+namespace Container.Framework.Extensions
 {
     public interface IFactory<T>
     {

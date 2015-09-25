@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using Container.Framework;
+using Container.Framework.Extensions;
 using UnityEngine;
 
 namespace Container.UnitTests

@@ -1,9 +1,12 @@
-﻿using Container.Framework;
+﻿using Container.Framework.Extensions;
+using UnityEngine;
 
 namespace Container.Example
 {
-    public class GameRoot : SceneCompositionRoot
+    public class GameRoot : EventCompositionRoot
     {
+        [SerializeField] GameObject prefab;
+
         protected override void SetupBindings()
         {
             container.RegisterSingleton<IRandom, UnityRandom>();
@@ -13,6 +16,8 @@ namespace Container.Example
         protected override void Init()
         {
             //Startup Logic
+            var go = Instantiate(prefab);
+            go.transform.SetParent(this.transform, false);
         }
     }
 }

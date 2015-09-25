@@ -17,31 +17,4 @@ namespace Container.Framework
 
         protected abstract void Init();
     }
-
-    public abstract class EventCompositionRoot : CompositionRoot, IMonoInjectionHandler
-    {
-        public void InjectDependencies(MonoBehaviour script)
-        {
-            container.InjectProperties(script);
-        }
-    }
-
-    public abstract class SceneCompositionRoot : CompositionRoot
-    {
-        protected override void Awake()
-        {
-            container = new Binder();
-            SetupBindings();
-            ResolveScene();
-            Init();
-        }
-
-        private void ResolveScene()
-        {
-            foreach (var script in Object.FindObjectsOfType(typeof(MonoBehaviour)))
-            {
-                container.InjectProperties(script);
-            }
-        }
-    }
 }

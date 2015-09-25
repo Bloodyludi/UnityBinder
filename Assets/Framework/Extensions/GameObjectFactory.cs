@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Container.Framework
+namespace Container.Framework.Extensions
 {
     public interface IGameObjectFactory
     {

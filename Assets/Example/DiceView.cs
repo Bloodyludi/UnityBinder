@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Container.Framework;
+using Container.Framework.Extensions;
 
 namespace Container.Example
 {
