@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
 
     public abstract class EventCompositionRoot : CompositionRoot, IMonoInjectionHandler

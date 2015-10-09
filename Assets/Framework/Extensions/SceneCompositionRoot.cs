@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
 
     public abstract class SceneCompositionRoot : CompositionRoot
     {
         protected override void Awake()
         {
-            container = new Binder();
+            container = new Container();
             SetupBindings();
             ResolveScene();
             Init();

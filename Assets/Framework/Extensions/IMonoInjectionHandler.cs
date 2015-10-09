@@ -1,7 +1,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
     public interface IMonoInjectionHandler : IEventSystemHandler
     {

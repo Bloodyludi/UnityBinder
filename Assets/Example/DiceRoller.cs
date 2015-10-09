@@ -1,4 +1,4 @@
-namespace Container.Example
+namespace DIContainer.Example
 {
     public interface IDiceRoller
     {

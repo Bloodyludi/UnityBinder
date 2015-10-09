@@ -1,16 +1,16 @@
-﻿using Container.Framework;
-using Container.Framework.Extensions;
+﻿using DIContainer.Framework;
+using DIContainer.Framework.Extensions;
 using NUnit.Framework;
 using UnityEngine;
 using System.Diagnostics;
 
-namespace Container.UnitTests
+namespace DIContainer.UnitTests
 {
     [TestFixture]
     public class MonoInjectionApproach2PerformanceTests
     {
         GameObjectFactory factory;
-        Binder binder;
+        Container binder;
         Stopwatch sw;
         GameObject prefab;
         GameObject[] instances;
@@ -18,7 +18,7 @@ namespace Container.UnitTests
         [SetUp]
         public void SetUp()
         {
-            binder = new Binder();
+            binder = new Container();
             binder.RegisterTransient<ITestInterface, TestClass>();
             factory = new GameObjectFactory(binder);
             sw = new Stopwatch();

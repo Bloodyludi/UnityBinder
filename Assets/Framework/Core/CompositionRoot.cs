@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-namespace Container.Framework
+namespace DIContainer.Framework
 {
     public abstract class CompositionRoot : MonoBehaviour
     {
-        protected IBinder container;
+        protected IContainer container;
 
         protected virtual void Awake()
         {
-            container = new Binder();
+            container = new Container();
             SetupBindings();
             Init();
         }

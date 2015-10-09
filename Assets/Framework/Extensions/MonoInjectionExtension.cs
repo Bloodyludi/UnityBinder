@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
     public static class MonoInjectionExtension
     {

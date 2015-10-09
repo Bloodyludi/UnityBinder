@@ -3,17 +3,17 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Container.Framework
+namespace DIContainer.Framework
 {
-    public class Binder : IBinder
+    public class Container : IContainer
     {
         private readonly IDictionary<Type, Type> transientMap = new Dictionary<Type, Type>();
         private readonly IDictionary<Type, object> singletonMap = new Dictionary<Type, object>();
 
-        public Binder()
+        public Container()
         {
             //Allows the Container to be used as a Service Locator
-            RegisterInstance<IBinder, Binder>(this);
+            RegisterInstance<IContainer, Container>(this);
         }
 
         public void RegisterTransient<TInter, TClass>() where TClass : class, TInter

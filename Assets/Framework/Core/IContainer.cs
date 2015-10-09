@@ -1,6 +1,6 @@
-namespace Container.Framework
+namespace DIContainer.Framework
 {
-    public interface IBinder
+    public interface IContainer
     {
         void RegisterTransient<TInter, TClass>() where TClass : class, TInter;
 
@@ -14,5 +14,4 @@ namespace Container.Framework
 
         void InjectProperties(object instance);
     }
-    
 }

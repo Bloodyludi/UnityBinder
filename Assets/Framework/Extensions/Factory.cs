@@ -1,6 +1,6 @@
 using System;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
     public interface IFactory<T>
     {
@@ -9,9 +9,9 @@ namespace Container.Framework.Extensions
 
     public class Factory<T> : IFactory<T>
     {
-        private readonly IBinder binder;
+        private readonly IContainer binder;
 
-        public Factory(IBinder binder)
+        public Factory(IContainer binder)
         {
             this.binder = binder;
 

@@ -1,8 +1,8 @@
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
     public static class ServiceLocator
     {
-        private static readonly IBinder binder = new Binder();
+        private static readonly IContainer binder = new Container();
 
         public static void RegisterTransient<TInter, TClass>() where TClass : class, TInter
         {

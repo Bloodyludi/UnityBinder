@@ -1,7 +1,7 @@
-﻿using Container.Framework.Extensions;
+﻿using DIContainer.Framework.Extensions;
 using UnityEngine;
 
-namespace Container.Example
+namespace DIContainer.Example
 {
     public class GameRoot : EventCompositionRoot
     {

@@ -1,20 +1,20 @@
 ﻿using NUnit.Framework;
-using Container.Framework;
-using Container.Framework.Extensions;
+using DIContainer.Framework;
+using DIContainer.Framework.Extensions;
 using UnityEngine;
 
-namespace Container.UnitTests
+namespace DIContainer.UnitTests
 {
     [TestFixture]
     public class GameObjectFactoryTests
     {
         GameObjectFactory factory;
-        Binder binder;
+        Container binder;
 
         [SetUp]
         public void SetUp()
         {
-            binder = new Binder();
+            binder = new Container();
             factory = new GameObjectFactory(binder);
         }
 

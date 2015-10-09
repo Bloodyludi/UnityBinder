@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using Container.Framework;
-using Container.Framework.Extensions;
+using DIContainer.Framework;
+using DIContainer.Framework.Extensions;
 
-namespace Container.UnitTests
+namespace DIContainer.UnitTests
 {
     [TestFixture]
-    public class BinderTests
+    public class ContainerTests
     {
-        Binder binder;
+        Container binder;
 
         [SetUp]
         public void Setup()
         {
-            binder = new Binder();
+            binder = new Container();
         }
 
         [Test]

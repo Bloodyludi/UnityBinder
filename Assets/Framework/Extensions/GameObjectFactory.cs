@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
     public interface IGameObjectFactory
     {
@@ -12,9 +12,9 @@ namespace Container.Framework.Extensions
     public class GameObjectFactory : IGameObjectFactory
     {
         private readonly Dictionary<string, GameObject> resourceCache;
-        private readonly IBinder binder;
+        private readonly IContainer binder;
 
-        public GameObjectFactory(IBinder binder)
+        public GameObjectFactory(IContainer binder)
         {
             this.binder = binder;
             this.resourceCache = new Dictionary<string, GameObject>();

@@ -1,10 +1,10 @@
-using Container.Framework;
-using Container.Framework.Extensions;
+using DIContainer.Framework;
+using DIContainer.Framework.Extensions;
 using NUnit.Framework;
 using UnityEngine;
 using System.Diagnostics;
 
-namespace Container.UnitTests
+namespace DIContainer.UnitTests
 {
     [TestFixture]
     public class MonoInjectionApproach1PerformanceTests
@@ -65,7 +65,7 @@ namespace Container.UnitTests
     {
         public void Setup()
                 {
-                    container = new Binder();
+                    container = new Container();
                     container.RegisterTransient<ITestInterface, TestClass>();
                 }
 
