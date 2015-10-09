@@ -1,18 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace Container.Framework.Extensions
+namespace DIContainer.Framework.Extensions
 {
-    public interface ICoroutineRunner
-    {
-        Coroutine StartCoroutine(IEnumerator routine);
-    }
-
-    public class CoroutineRunnerBehaviour : MonoBehaviour, ICoroutineRunner
-    {
-
-    }
-
     public class CoroutineRunner : ICoroutineRunner
     {
         private readonly IGameObjectFactory gameObjectFactory;
@@ -26,7 +16,7 @@ namespace Container.Framework.Extensions
             coroutineRunnerBehaviour = go.GetComponent<ICoroutineRunner>();
         }
 
-        Coroutine StartCoroutine(IEnumerator routine)
+        public Coroutine StartCoroutine(IEnumerator routine)
         {
             return coroutineRunnerBehaviour.StartCoroutine(routine);
         }

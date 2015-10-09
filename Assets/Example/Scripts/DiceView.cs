@@ -2,9 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DIContainer.Framework;
 using DIContainer.Framework.Extensions;
-using System.Reflection;
-using System;
-
 namespace DIContainer.Example
 {
     public class DiceView : MonoBehaviour

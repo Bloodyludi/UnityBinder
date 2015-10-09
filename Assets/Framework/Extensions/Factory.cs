@@ -2,11 +2,6 @@ using System;
 
 namespace DIContainer.Framework.Extensions
 {
-    public interface IFactory<T>
-    {
-        T Create();
-    }
-
     public class Factory<T> : IFactory<T>
     {
         private readonly IContainer binder;

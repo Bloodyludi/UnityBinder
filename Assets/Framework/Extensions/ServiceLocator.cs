@@ -29,5 +29,4 @@ namespace DIContainer.Framework.Extensions
             return binder.Resolve<T>();
         }
     }
-    
 }

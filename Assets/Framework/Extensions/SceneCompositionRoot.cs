@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace DIContainer.Framework.Extensions
 {
-
     public abstract class SceneCompositionRoot : CompositionRoot
     {
         protected override void Awake()
