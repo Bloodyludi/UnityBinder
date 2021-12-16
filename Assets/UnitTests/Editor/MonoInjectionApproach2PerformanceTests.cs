@@ -39,7 +39,7 @@ namespace DIContainer.UnitTests
             Object.DestroyImmediate(prefab);
         }
 
-//        [Test]
+        [Test]
         public void TestPerformance()
         {
             sw.Start();

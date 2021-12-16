@@ -6,7 +6,7 @@ namespace DIContainer.Framework.Extensions
     {
         protected override void Awake()
         {
-            container = new Container();
+            Container = new Container();
             SetupBindings();
             ResolveScene();
             Init();
@@ -16,7 +16,7 @@ namespace DIContainer.Framework.Extensions
         {
             foreach (var script in Object.FindObjectsOfType(typeof(MonoBehaviour)))
             {
-                container.InjectProperties(script);
+                Container.InjectProperties(script);
             }
         }
     }

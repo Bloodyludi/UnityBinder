@@ -1,10 +1,14 @@
+using JetBrains.Annotations;
+
 namespace DIContainer.Example
 {
+    [UsedImplicitly]
     public class DiceRoller : IDiceRoller
     {
-        private IRandom random;
+        private const int Pips = 6;
+
+        private readonly IRandom random;
         private int result;
-        private const int pips = 6;
 
         public DiceRoller(IRandom random)
         {
@@ -13,12 +17,12 @@ namespace DIContainer.Example
 
         public IDiceRoller Roll()
         {
-            result = random.Range(1, pips);
+            result = random.Range(1, Pips);
 
             return this;
         }
 
-        public string Result ()
+        public string Result()
         {
             return result.ToString();
         }

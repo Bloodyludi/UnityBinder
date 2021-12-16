@@ -8,8 +8,8 @@ namespace DIContainer.UnitTests
     [TestFixture]
     public class GameObjectFactoryTests
     {
-        GameObjectFactory factory;
-        Container binder;
+        private GameObjectFactory factory;
+        private Container binder;
 
         [SetUp]
         public void SetUp()

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DIContainer.Framework;
 using DIContainer.Framework.Extensions;
+
 namespace DIContainer.Example
 {
     public class DiceView : MonoBehaviour
@@ -9,8 +10,7 @@ namespace DIContainer.Example
         [SerializeField] private Button rollButton;
         [SerializeField] private Text resultLabel;
 
-        [Inject]
-        public IDiceRoller diceRoller { get; set; }
+        [Inject] public IDiceRoller DiceRoller { get; set; }
 
         private void Start()
         {
@@ -19,17 +19,17 @@ namespace DIContainer.Example
 
         private void OnEnable()
         {
-            rollButton.onClick.AddListener(onRollClick);
+            rollButton.onClick.AddListener(OnClickRoll);
         }
 
         private void OnDisable()
         {
-            rollButton.onClick.RemoveListener(onRollClick);
+            rollButton.onClick.RemoveListener(OnClickRoll);
         }
 
-        private void onRollClick()
+        private void OnClickRoll()
         {
-            resultLabel.text = diceRoller.Roll().Result();
+            resultLabel.text = DiceRoller.Roll().Result();
         }
     }
 }

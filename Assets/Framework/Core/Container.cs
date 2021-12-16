@@ -29,7 +29,7 @@ namespace DIContainer.Framework
             }
             else
             {
-                throw new ArgumentNullException("instance", "You need to provide an instance. Use RegisterSingleton instead");
+                throw new ArgumentNullException(nameof(instance), "You need to provide an instance. Use RegisterSingleton instead");
             }
         }
 
@@ -134,7 +134,7 @@ namespace DIContainer.Framework
             return instance;
         }
 
-        private ConstructorInfo GetConstructor(Type type)
+        private static ConstructorInfo GetConstructor(Type type)
         {
             var constructors = type.GetConstructors();
             ConstructorInfo constructor;

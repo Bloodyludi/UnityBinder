@@ -1,7 +1,9 @@
 using System;
+using JetBrains.Annotations;
 
 namespace DIContainer.Framework.Extensions
 {
+    [UsedImplicitly]
     public class Factory<T> : IFactory<T>
     {
         private readonly IContainer binder;

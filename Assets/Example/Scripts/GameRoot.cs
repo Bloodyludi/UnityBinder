@@ -9,15 +9,14 @@ namespace DIContainer.Example
 
         protected override void SetupBindings()
         {
-            container.RegisterSingleton<IRandom, UnityRandom>();
-            container.RegisterSingleton<IDiceRoller, DiceRoller>();
+            Container.RegisterSingleton<IRandom, UnityRandom>();
+            Container.RegisterSingleton<IDiceRoller, DiceRoller>();
         }
 
         protected override void Init()
         {
-            //Startup Logic
-            var go = Instantiate(prefab);
-            go.transform.SetParent(this.transform, false);
+            //Startup Logic here
+            Instantiate(prefab, transform, false);
         }
     }
 }

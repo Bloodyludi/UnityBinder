@@ -40,7 +40,7 @@ namespace DIContainer.UnitTests
             Object.DestroyImmediate(root);
         }
 
-//        [Test]
+        [Test]
         public void TestPerformance()
         {
             sw.Start();
@@ -57,6 +57,7 @@ namespace DIContainer.UnitTests
             {
                 Assert.NotNull(instances[j].GetComponent<TestMonoApproach1>().property);
             }
+
             Assert.Pass(sw.ElapsedMilliseconds.ToString());
         }
     }
@@ -64,14 +65,13 @@ namespace DIContainer.UnitTests
     public class TestRoot : EventCompositionRoot
     {
         public void Setup()
-                {
-                    container = new Container();
-                    container.RegisterTransient<ITestInterface, TestClass>();
-                }
+        {
+            Container = new Container();
+            Container.RegisterTransient<ITestInterface, TestClass>();
+        }
 
         protected override void SetupBindings()
         {
-            
         }
 
         protected override void Init()
@@ -81,8 +81,7 @@ namespace DIContainer.UnitTests
 
     public class TestMonoApproach1 : MonoBehaviour
     {
-        [Inject]
-        public ITestInterface property { get; set; }
+        [Inject] public ITestInterface property { get; set; }
 
         void Start()
         {

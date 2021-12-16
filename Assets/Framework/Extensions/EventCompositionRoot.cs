@@ -6,7 +6,7 @@ namespace DIContainer.Framework.Extensions
     {
         public void InjectDependencies(MonoBehaviour script)
         {
-            container.InjectProperties(script);
+            Container.InjectProperties(script);
         }
     }
 }

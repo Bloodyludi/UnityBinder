@@ -5,14 +5,11 @@ namespace DIContainer.Framework.Extensions
 {
     public class CoroutineRunner : ICoroutineRunner
     {
-        private readonly IGameObjectFactory gameObjectFactory;
         private readonly ICoroutineRunner coroutineRunnerBehaviour;
 
         public CoroutineRunner(IGameObjectFactory gameObjectFactory)
         {
-            this.gameObjectFactory = gameObjectFactory;
-
-            var go = this.gameObjectFactory.Create("CoroutineRunnerPrefab");
+            var go = gameObjectFactory.Create("CoroutineRunnerPrefab");
             coroutineRunnerBehaviour = go.GetComponent<ICoroutineRunner>();
         }
 

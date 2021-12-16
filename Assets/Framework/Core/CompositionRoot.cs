@@ -4,11 +4,11 @@ namespace DIContainer.Framework
 {
     public abstract class CompositionRoot : MonoBehaviour
     {
-        protected IContainer container;
+        protected IContainer Container;
 
         protected virtual void Awake()
         {
-            container = new Container();
+            Container = new Container();
             SetupBindings();
             Init();
         }

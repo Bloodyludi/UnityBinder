@@ -6,5 +6,4 @@ namespace DIContainer.Example
 
         string Result();
     }
-    
 }

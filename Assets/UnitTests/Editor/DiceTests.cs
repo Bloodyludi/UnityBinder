@@ -21,9 +21,9 @@ namespace DIContainer.Example.UnitTests
 
     public class GuessANumber
     {
-        private IRandom random;
+        private readonly IRandom random;
         private int result;
-        private const int max = 6;
+        private const int MAX = 6;
 
         public GuessANumber(IRandom random)
         {
@@ -32,7 +32,7 @@ namespace DIContainer.Example.UnitTests
 
         public GuessANumber Roll()
         {
-            result = random.Range(1, max);
+            result = random.Range(1, MAX);
             return this;
         }
 
